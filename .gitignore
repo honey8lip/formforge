@@ -1,0 +1,9 @@
+node_modules/
+build/
+coverage/
+*.log
+dist/
+*.swp
+yarn-error.log*
+.parcel-cache/
+npm-debug.log*
