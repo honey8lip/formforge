@@ -63,6 +63,16 @@ export function createFormState(initialValues = {}) {
     notify();
   }
 
+  /**
+   * Resets a single field to its initial value and removes its touched state.
+   * @param {string} name - The field name to reset.
+   */
+  function resetField(name) {
+    values[name] = initialSnapshot[name];
+    touched.delete(name);
+    notify();
+  }
+
   function subscribe(fn) {
     listeners.add(fn);
     return () => listeners.delete(fn);
@@ -77,6 +87,7 @@ export function createFormState(initialValues = {}) {
     isDirty,
     getDirtyFields,
     reset,
+    resetField,
     subscribe,
   };
 }
