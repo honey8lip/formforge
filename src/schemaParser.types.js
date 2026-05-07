@@ -19,13 +19,16 @@
  * @property {number|null}     minimum      - Minimum numeric value
  * @property {number|null}     maximum      - Maximum numeric value
  * @property {string|null}     pattern      - Regex pattern string for validation
+ * @property {string|null}     format       - JSON Schema format hint (e.g. 'date', 'email', 'uri')
  */
 
 /**
  * @typedef {object} ParsedSchema
  * Result of parsing a full JSON schema object.
  *
- * @property {FieldDescriptor[]} fields - Ordered list of normalized field descriptors
+ * @property {FieldDescriptor[]} fields      - Ordered list of normalized field descriptors
+ * @property {string|null}       title       - Optional form title from the root schema
+ * @property {string|null}       description - Optional form description from the root schema
  */
 
 /**
