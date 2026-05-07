@@ -71,6 +71,23 @@ export function localizeField(field) {
 }
 
 /**
+ * Check whether a locale has been registered.
+ * @param {string} locale
+ * @returns {boolean}
+ */
+export function hasLocale(locale) {
+  return Object.prototype.hasOwnProperty.call(locales, locale);
+}
+
+/**
+ * Get all registered locale keys.
+ * @returns {string[]}
+ */
+export function getRegisteredLocales() {
+  return Object.keys(locales);
+}
+
+/**
  * Remove all registered locales and reset to defaults.
  */
 export function resetI18n() {
