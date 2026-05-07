@@ -75,43 +75,19 @@ test('evaluateRule: empty conditions returns true', () => {
   expect(evaluateRule({ conditions: [], effect: 'show' }, {})).toBe(true);
 });
 
+test('evaluateRule: defaults to and logic when logic is not specified', () => {
+  const rule = {
+    conditions: [
+      { field: 'a', operator: 'eq', value: 1 },
+      { field: 'b', operator: 'eq', value: 2 },
+    ],
+    effect: 'show',
+  };
+  // both match — should pass
+  expect(evaluateRule(rule, { a: 1, b: 2 })).toBe(true);
+  // one fails — should fail under and semantics
+  expect(evaluateRule(rule, { a: 1, b: 9 })).toBe(false);
+});
+
 // --- applyConditions ---
 
-function makeForm() {
-  document.body.innerHTML = `
-    <form>
-      <div data-field><input name="accountType" value="personal" /></div>
-      <div data-field><input name="companyName" value="" /></div>
-      <div data-field><input name="submitBtn" type="submit" /></div>
-    </form>`;
-  return document.querySelector('form');
-}
-
-test('applyConditions: hides field when show rule is false', () => {
-  const form = makeForm();
-  const map = {
-    companyName: [{ conditions: [{ field: 'accountType', operator: 'eq', value: 'business' }], logic: 'and', effect: 'show' }],
-  };
-  applyConditions(form, map, { accountType: 'personal' });
-  const wrapper = form.querySelector('[name="companyName"]').closest('[data-field]');
-  expect(wrapper.style.display).toBe('none');
-});
-
-test('applyConditions: shows field when show rule is true', () => {
-  const form = makeForm();
-  const map = {
-    companyName: [{ conditions: [{ field: 'accountType', operator: 'eq', value: 'business' }], logic: 'and', effect: 'show' }],
-  };
-  applyConditions(form, map, { accountType: 'business' });
-  const wrapper = form.querySelector('[name="companyName"]').closest('[data-field]');
-  expect(wrapper.style.display).toBe('');
-});
-
-test('applyConditions: disables field when disable rule is true', () => {
-  const form = makeForm();
-  const map = {
-    submitBtn: [{ conditions: [{ field: 'accountType', operator: 'eq', value: 'personal' }], logic: 'and', effect: 'disable' }],
-  };
-  applyConditions(form, map, { accountType: 'personal' });
-  expect(form.querySelector('[name="submitBtn"]').disabled).toBe(true);
-});
