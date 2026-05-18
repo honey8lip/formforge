@@ -72,6 +72,16 @@ export function listRules() {
   return Array.from(ruleRegistry.keys());
 }
 
+/**
+ * Get a registered rule function by name.
+ * Returns undefined if the rule is not registered.
+ * @param {string} name
+ * @returns {((value: any, param: any, field: object) => string|null) | undefined}
+ */
+export function getRule(name) {
+  return ruleRegistry.get(name);
+}
+
 // --- Built-in rules ---
 
 registerRule('minLength', (value, param) =>
